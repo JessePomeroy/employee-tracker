@@ -1,6 +1,13 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const db = require('./db');
+require("console.table");
+
+init();
+
+function init() {
+    mainPrompt();
+}
 
 async function mainPrompt() {
     const { choice } = await inquirer.prompt([
