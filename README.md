@@ -6,7 +6,8 @@ A content management system that operates in the command line to manage a compan
 ## Project Deployment
 https://github.com/JessePomeroy/employee-tracker
 
-https://youtu.be/Dogl0A-XgWU
+>click picture for link to video
+[![Demo Scrot](https://github.com/JessePomeroy/employee-tracker/blob/main/scrot.png)](https://youtu.be/Dogl0A-XgWU)
 
 ## Table of Contents
 * [Features](#features)
