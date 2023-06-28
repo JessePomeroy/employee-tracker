@@ -5,6 +5,9 @@
 A content management system that operates in the command line to manage a company's employee database.
 ## Project Deployment
 https://github.com/JessePomeroy/employee-tracker
+
+https://youtu.be/Dogl0A-XgWU
+
 ## Table of Contents
 * [Features](#features)
 * [Dependencies](#dependencies)
