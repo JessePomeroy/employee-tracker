@@ -20,30 +20,30 @@ async function mainPrompt() {
                     name: "view employees",
                     value: "VIEW_EMPLOYEES"
                 },
-                {
-                    name: "view employees by department",
-                    value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
-                },
-                {
-                    name: "view employees by manager",
-                    valeu: "VIEW_EMPLOYEES_BY_MANAGER"
-                },
+                // {
+                //     name: "view employees by department",
+                //     value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
+                // },
+                // {
+                //     name: "view employees by manager",
+                //     valeu: "VIEW_EMPLOYEES_BY_MANAGER"
+                // },
                 {
                     name: "add employee",
                     value: "ADD_EMPLOYEE"
                 },
-                {
-                    name: "delete employee",
-                    value: "DELETE_EMPLOYEE"
-                },
+                // {
+                //     name: "delete employee",
+                //     value: "DELETE_EMPLOYEE"
+                // },
                 {
                     name: "update employee role",
                     value: "UPDATE_EMPLOYEE_ROLE"
                 },
-                {
-                    name: "update employee manager",
-                    value: "UPDATE_EMPLOYEE_MANAGER"
-                },
+                // {
+                //     name: "update employee manager",
+                //     value: "UPDATE_EMPLOYEE_MANAGER"
+                // },
                 {
                     name: "view all roles",
                     value: "VIEW_ROLES"
@@ -52,10 +52,10 @@ async function mainPrompt() {
                     name: "add role",
                     value: "ADD_ROLE"
                 },
-                {
-                    name: "delete role",
-                    value: "DELETE_ROLE"
-                },
+                // {
+                //     name: "delete role",
+                //     value: "DELETE_ROLE"
+                // },
                 {
                     name: "view all departments",
                     value: "VIEW_DEPARTMENTS"
@@ -91,7 +91,7 @@ async function mainPrompt() {
 }
 
 async function viewEmployees() {
-    const employees = await db.findAllEmployees();
+    const employees = await db.findEmployees();
 
     console.table(employees);
 
@@ -99,14 +99,14 @@ async function viewEmployees() {
 }
 
 async function viewEmployeesByDepartment() {
-    const departments = await db.findAllDepartments();
+    const departments = await db.findDepartments();
 
     const userDepartmentChoice = departments.map(({ id, name }) => ({
         name: name,
         value: id
     }));
 
-    const { departmentId } = await inquirer([
+    const { departmentId } = await inquirer.prompt([
         {
             type: "list",
             name: "departmentId",
@@ -115,7 +115,7 @@ async function viewEmployeesByDepartment() {
         }
     ]);
 
-    const employees = await db.findAllEmployeesByDepartment(departmentId);
+    const employees = await db.findEmployeesByDepartment(departmentId);
 
     console.table(employees);
 
@@ -123,14 +123,14 @@ async function viewEmployeesByDepartment() {
 }
 
 async function updateEmployeeRole() {
-    const employees = await db.findAllEmployees();
+    const employees = await db.findEmployees();
 
     const userEmployeeChoice = employees.map(({ id, first_name, last_name }) => ({
-        name: first_name + '' + last_name,
+        name: first_name + ' ' + last_name,
         value: id,
     }));
 
-    const { employeeId } = await inquirer([
+    const { employeeId } = await inquirer.prompt([
         {
             type: "list",
             name: "employeeId",
@@ -139,14 +139,14 @@ async function updateEmployeeRole() {
         }
     ]);
 
-    const roles = await db.findAllRoles();
+    const roles = await db.findRoles();
 
     const roleChoices = roles.map(({ id, title }) => ({
         name: title,
         value: id
     }));
 
-    const { roleId } = await inquirer([
+    const { roleId } = await inquirer.prompt([
         {
             type: "list",
             name: "roleId",
@@ -163,7 +163,7 @@ async function updateEmployeeRole() {
 }
 
 async function viewRoles() {
-    const roles = await db.findAllRoles();
+    const roles = await db.findRoles();
 
     console.table(roles);
 
@@ -171,14 +171,14 @@ async function viewRoles() {
 }
 
 async function addRole() {
-    const departments = await db.findAllDepartments();
+    const departments = await db.findDepartments();
 
     const userDepartmentChoice = departments.map(({ id, name }) => ({
         name: name,
         value: id,
     }));
 
-    const role = await inquirer([
+    const role = await inquirer.prompt([
         {
             name: "title",
             message: "name of role?"
@@ -203,7 +203,7 @@ async function addRole() {
 }
 
 async function viewDepartments() {
-    const departments = await db.findAllDepartments();
+    const departments = await db.findDepartments();
 
     console.table(departments);
 
@@ -211,7 +211,7 @@ async function viewDepartments() {
 }
 
 async function addDepartment() {
-    const department = await inquirer([
+    const department = await inquirer.prompt([
         {
             name: "name",
             message: "what is the name of the department?"
@@ -226,10 +226,10 @@ async function addDepartment() {
 }
 
 async function addEmployee() {
-    const roles = await db.findAllRoles();
-    const employees = await db.findAllEmployees();
+    const roles = await db.findRoles();
+    const employees = await db.findEmployees();
 
-    const employee = await inquirer([
+    const employee = await inquirer.prompt([
         {
             name: "first_name",
             message: "what is employee's first name?",
@@ -244,7 +244,7 @@ async function addEmployee() {
         value: id
     }));
 
-    const { roleId } = await inquirer([
+    const { roleId } = await inquirer.prompt([
         {
             type: "list",
             name: "roleId",
@@ -256,12 +256,12 @@ async function addEmployee() {
     employee.role_id = roleId;
 
     const userManagerChoices = employees.map(({ id, first_name, last_name }) => ({
-        name: first_name + '' + last_name,
+        name: first_name + ' ' + last_name,
         value: id,
     }));
     userManagerChoices.unshift({ name: "none", value: null });
 
-    const { managerId } = await inquirer([
+    const { managerId } = await inquirer.prompt([
         {
             type: "list",
             name: "managerId",
