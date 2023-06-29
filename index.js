@@ -1,3 +1,4 @@
+// require dependencies
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const db = require('./db');
@@ -8,8 +9,9 @@ init();
 function init() {
     mainPrompt();
 }
-
+// prompt user with the main menu
 async function mainPrompt() {
+    // prompt user for menu choice
     const { choice } = await inquirer.prompt([
         {
             type: "list",
@@ -67,7 +69,7 @@ async function mainPrompt() {
             ]
         }
     ]);
-
+    // route user to appropriate function based on choice
     switch (choice) {
         case "VIEW_EMPLOYEES":
             return viewEmployees();
@@ -89,7 +91,7 @@ async function mainPrompt() {
             return quit();
     }
 }
-
+// query database for all employees
 async function viewEmployees() {
     const employees = await db.findEmployees();
 
@@ -97,7 +99,7 @@ async function viewEmployees() {
 
     mainPrompt();
 }
-
+// query the database for employees based on the departments
 async function viewEmployeesByDepartment() {
     const departments = await db.findDepartments();
 
@@ -123,13 +125,14 @@ async function viewEmployeesByDepartment() {
 }
 
 async function updateEmployeeRole() {
+    // get all the employees from the database
     const employees = await db.findEmployees();
-
+    // map the employees to {name: full name, value: id} array for prompt choices
     const userEmployeeChoice = employees.map(({ id, first_name, last_name }) => ({
         name: first_name + ' ' + last_name,
         value: id,
     }));
-
+    // prompt user to select an employee
     const { employeeId } = await inquirer.prompt([
         {
             type: "list",
@@ -138,14 +141,14 @@ async function updateEmployeeRole() {
             choices: userEmployeeChoice
         }
     ]);
-
+    // get all roles from database
     const roles = await db.findRoles();
-
+    // map roles to {name: title, value: id} array for prompt choices
     const roleChoices = roles.map(({ id, title }) => ({
         name: title,
         value: id
     }));
-
+    // prompt user to select a role
     const { roleId } = await inquirer.prompt([
         {
             type: "list",
@@ -154,7 +157,7 @@ async function updateEmployeeRole() {
             choices: roleChoices
         }
     ]);
-
+    // update employee role using database function
     await db.updateEmployeeRole(employeeId, roleId);
 
     console.log("successfully updated employee role!");
